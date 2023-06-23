@@ -40,23 +40,18 @@ resource "aws_iam_role_policy_attachment" "sns_topic" {
 }
 
 resource "aws_lambda_function" "s3ToSNS" {
-  s3_bucket     = aws_s3_bucket.forLambdas.id
-  s3_key        = aws_s3_object.s3ToSNS.key
-  function_name = "${random_pet.name.id}-TriggerNotification"
-  role          = aws_iam_role.lambda_role.arn
-  handler       = "main"
-  runtime       = "go1.x"
+  s3_bucket        = aws_s3_bucket.forLambdas.id
+  s3_key           = aws_s3_object.s3ToSNS.key
+  function_name    = "${random_pet.name.id}-TriggerNotification"
+  source_code_hash = local.hash
+  role             = aws_iam_role.lambda_role.arn
+  handler          = "main"
+  runtime          = "go1.x"
 
   environment {
     variables = {
       S3TOPIC = "${aws_sns_topic.s3_topic.arn}"
     }
-  }
-
-  lifecycle {
-    replace_triggered_by = [
-      aws_s3_object.s3ToSNS.etag
-    ]
   }
 }
 
@@ -89,7 +84,11 @@ resource "aws_s3_object" "s3ToSNS" {
   bucket           = aws_s3_bucket.forLambdas.id
   key              = "pkg.zip"
   source           = "pkg.zip"
-  etag             = filemd5("pkg.zip")
+  source_hash      = local.hash
   content_type     = "application/zip"
   content_language = "en-US"
+}
+
+locals {
+  hash = chomp(chomp(file("pkg.zip.sha256")))
 }

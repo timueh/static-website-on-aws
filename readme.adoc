@@ -1,7 +1,5 @@
 == Hosting a static website on AWS
 
-
-
 This repository contains `terraform` code to host a static website serverlessly on AWS infrastructure.
 
 [IMPORTANT]
@@ -13,7 +11,7 @@ The author does not cover any AWS charges that may apply nor is the author liabl
 
 === Overview 
 
-From the visitor's point of view the architecture is straightforward: the visitor goes to the website which is hosted via AWS Cloudfront.
+From the website visitor's point of view the architecture is straightforward: the visitor goes to the website which is hosted via AWS Cloudfront.
 Cloudfront provisions the website from an S3 bucket containing the content.
 
 image::img/user.png[]
@@ -39,6 +37,7 @@ You need the following:
 
 [source bash]
 ----
+make build_lambda
 make init
 make apply
 ----
@@ -66,6 +65,12 @@ Go to the AWS Console, navigate to S3 and select your `content` bucket.
 Upload a file.
 This should trigger a notification to your previously entered e-mail address.
 
-=== Known issues
+=== Lambda function
 
-AWS Lambda redeployment even though nothing has changed.
+Whenever you modify the source code of the AWS Lambda function, you need to run `make build_lambda` before `make apply`.
+
+The command `make build_lambda` builds the binary and packages it to a `zip` file.
+Also, the command manually computes a hash.
+This hash is used in the `terraform` code to set the `hash_source` of the AWS Lambda.
+Usually, you'd use `terraform` built-in functions, but as long as https://github.com/hashicorp/terraform-provider-aws/issues/7385[this issue] remains open, this is an effective workaround to avoid constant re-deployment of the AWS Lambda function by `terraform`.
+
