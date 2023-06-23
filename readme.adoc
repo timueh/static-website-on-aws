@@ -1,4 +1,4 @@
-== Hosting a static website on AWS
+== Hosting a static website using AWS S3, AWS Cloudfront and AWS Lambda
 
 This repository contains `terraform` code to host a static website serverlessly on AWS infrastructure.
 
