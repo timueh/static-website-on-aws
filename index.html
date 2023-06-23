@@ -3,15 +3,27 @@
   <head>
     <title>This is the title of the webpage!</title>
     <style>
-        <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
-        font-family: 'Lato', sans-serif;
-        body {background-color: lightblue;}
-        h1   {color: gray;}
-        p    {color: gray;}
+        body {background-color: lightgray; font-family: Helvetica, Arial, sans-serif;}
+        h1   {color: darkmagenta;}
+        p    {color: darkmagenta;}
+
+        .center {
+          text-align: left;
+          width: 500px;
+          margin-left: auto;
+          margin-right: auto;
+          margin-top: 200px;
+          margin-bottom: auto;
+        }
         </style>
         </head>
   </head>
   <body>
-    <h1>Hello from my static website</h1>
+    <div class="center">
+      <h1>Hello from my static website!</h1>
+      <p>Go ahead and check out your S3 buckets in the AWS console.</p>
+      <p>Feel free to upload something to your <i>content</i> bucket.</p>
+      <p>This will trigger a notification to your subscribed e-mail.</p>
+  </div>
   </body>
 </html>

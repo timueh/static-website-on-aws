@@ -1,7 +1,6 @@
-.PHONY: build_lambda, apply
+.PHONY: build_lambda, fmt, init, apply
 pkg ?= pkg
 lambda_folder ?= lambda-go
-email ?= timueh@googlemail.com
 
 build_lambda:
 	rm ${pkg}.zip || true
@@ -12,5 +11,8 @@ fmt:
 	terraform fmt
 	terraform validate
 
+init:
+	terraform init
+
 apply: fmt build_lambda
-	terraform apply --auto-approve -var="subscription_email=${email}"
+	terraform apply --auto-approve

@@ -6,7 +6,6 @@ variable "region" {
 
 variable "subscription_email" {
   type        = string
-  default     = "foo@bar.org"
   description = "email address that will receive subscription (note: subscription must be confirmed!)"
   sensitive   = true
 }
